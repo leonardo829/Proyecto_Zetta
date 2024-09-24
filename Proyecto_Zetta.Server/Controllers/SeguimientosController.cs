@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Proyecto_Zetta.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/controller")]
     public class SeguimientosController : ControllerBase
     {
         private readonly ISeguimientoRepositorio repositorio;
@@ -50,7 +50,7 @@ namespace Proyecto_Zetta.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSeguimiento(int id, SeguimientoDTO seguimientoDto)
+        public ActionResult UpdateSeguimiento(int id, SeguimientoDTO seguimientoDto)
         {
             var seguimiento = repositorio.GetById(id);
             if (seguimiento == null) return NotFound();
@@ -61,7 +61,7 @@ namespace Proyecto_Zetta.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteSeguimiento(int id)
+        public ActionResult DeleteSeguimiento(int id)
         {
             var seguimiento = repositorio.GetById(id);
             if (seguimiento == null) return NotFound();
