@@ -1,7 +1,7 @@
-﻿@page "/seguimientos/{seguimientoId:int}"
-
+﻿@page "/seguimientos"
 @inject HttpClient Http
-@inject ISClienteServicio SClienteServicio 
+@inject ISClienteServicio SClienteServiocio
+
 
 <div class="card">
     <div class="card-header">
@@ -31,10 +31,10 @@
     private List<string> comentarios = new();
     private SeguimientoClienteDTO cliente = new();
 
-    protected override async Task OnInitializedAsync(int seguimientoId)
+    protected override async Task OnInitializedAsync(int Id)
     {
-        seguimiento = await Http.GetJsonAsync<SeguimientoDTO>($"api/seguimientos/{seguimientoId}");
-        comentarios = await Http.GetJsonAsync<List<string>>($"api/seguimientos/{seguimientoId}/comentarios");
-        cliente = await ClienteService.ObtenerClientePorObraId(seguimiento.ObraId);
+        seguimiento = await Http.GetJsonAsync<SeguimientoDTO>("api/seguimientos/{Id}");
+        comentarios = await Http.GetJsonAsync<List<string>>("api/seguimientos/{Id}/comentarios");
+        cliente = await SClienteServicio.ObtenerClientePorObraId(seguimiento.ObraId);
     }
 }
