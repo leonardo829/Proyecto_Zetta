@@ -35,14 +35,14 @@ namespace Proyecto_Zetta.Server.Repositorios
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
-        {
-            var seguimiento = GetById(id);
-            if (seguimiento != null)
-            {
-                _context.Set<Seguimiento>().Remove(seguimiento);
-                _context.SaveChanges();
-            }
-        }
+        //public void Delete(int id)
+        //{
+        //    var seguimiento = GetById(id);
+        //    if (seguimiento != null)
+        //    {
+        //        _context.Set<Seguimiento>().Remove(seguimiento);
+        //        _context.SaveChanges();
+        //    }
+        //}
     }
 }

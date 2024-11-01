@@ -12,7 +12,9 @@ namespace Proyecto_Zetta.Shared.DTO
         public string? Descripcion { get; set; }
         public bool Mantenimiento_SN { get; set; }
         public int ObraId { get; set; }
-        public int MantenimientoId { get; set; }
+        public int? MantenimientoId { get; set; }
+
+    //lo referido a mantenimiento tendira que ser null
     }
 
 }

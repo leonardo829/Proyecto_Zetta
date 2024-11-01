@@ -1,0 +1,40 @@
+﻿@page "/seguimientos/{seguimientoId:int}"
+
+@inject HttpClient Http
+@inject ISClienteServicio SClienteServicio 
+
+<div class="card">
+    <div class="card-header">
+        Estado: @seguimiento.Estado - Cliente: @cliente.Nombre
+    </div>
+    <div class="card-body">
+        <p>Dirección: @cliente.Direccion</p>
+        <p>Teléfono: @cliente.Telefono</p>
+        <h5 class="card-title">Descripción</h5>
+        <p class="card-text">@seguimiento.Descripcion</p>
+
+        <h6>Comentarios</h6>
+        <ul>
+            @foreach (var comentario in comentarios)
+            {
+                    <li>@comentario</li>
+            }
+        </ul>
+
+        <h6>Mantenimiento</h6>
+        <span class="badge bg-primary">@(seguimiento.Mantenimiento_SN ? "Sí" : "No")</span>
+    </div>
+</div>
+
+@code {
+    private SeguimientoDTO seguimiento = new();
+    private List<string> comentarios = new();
+    private SeguimientoClienteDTO cliente = new();
+
+    protected override async Task OnInitializedAsync(int seguimientoId)
+    {
+        seguimiento = await Http.GetJsonAsync<SeguimientoDTO>($"api/seguimientos/{seguimientoId}");
+        comentarios = await Http.GetJsonAsync<List<string>>($"api/seguimientos/{seguimientoId}/comentarios");
+        cliente = await ClienteService.ObtenerClientePorObraId(seguimiento.ObraId);
+    }
+}
