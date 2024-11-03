@@ -1,6 +1,5 @@
-﻿@page "/seguimientos"
-@inject HttpClient Http
-@inject ISClienteServicio SClienteServiocio
+﻿@page "/api/Seguimiento"
+@inject IHttpServicio http
 
 
 <div class="card">
@@ -21,20 +20,29 @@
             }
         </ul>
 
-        <h6>Mantenimiento</h6>
+        <h6>
+            Mantenimiento
         <span class="badge bg-primary">@(seguimiento.Mantenimiento_SN ? "Sí" : "No")</span>
+        </h6>
     </div>
 </div>
 
-@code {
+@code 
+{
     private SeguimientoDTO seguimiento = new();
     private List<string> comentarios = new();
     private SeguimientoClienteDTO cliente = new();
 
-    protected override async Task OnInitializedAsync(int Id)
+    protected override async Task OnInitializedAsync()
     {
-        seguimiento = await Http.GetJsonAsync<SeguimientoDTO>("api/seguimientos/{Id}");
-        comentarios = await Http.GetJsonAsync<List<string>>("api/seguimientos/{Id}/comentarios");
-        cliente = await SClienteServicio.ObtenerClientePorObraId(seguimiento.ObraId);
+        await base.OnInitializedAsync();
+        await Mostrar();
+    }
+
+    private async Task Mostrar()
+    {
+        var seguimiento = await http.Get<SeguimientoDTO>("api/seguimientos");
+        var comentario = await http.Get<List<string>>("api/seguimientos/");
+        var cliente = await http.Get<SeguimientoClienteDTO>("api/Seguimiento");
     }
 }

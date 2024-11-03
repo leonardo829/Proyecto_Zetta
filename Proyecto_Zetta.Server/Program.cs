@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Proyecto_zetta.client.Servicios;
+//using Proyecto_zetta.client.Servicios;
 using Proyecto_Zetta.DB.Data;
 using Proyecto_Zetta.Server.Repositorios;
 using System.Text.Json.Serialization;
@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(
     x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<IHttpServicio, HttpServicio>();
+//builder.Services.AddScoped<IHttpServicio, HttpServicio>();
 builder.Services.AddHttpClient();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

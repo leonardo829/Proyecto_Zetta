@@ -23,8 +23,7 @@ namespace Proyecto_Zetta.Server.Controllers
             this.mapper = mapper;
         }
 
-
-        [HttpGet]
+        [HttpGet] //api/Seguimiento
         public ActionResult<SeguimientoDTO> GetSeguimientos()
         {
             var seguimientos = repositorio.Get();
@@ -32,7 +31,7 @@ namespace Proyecto_Zetta.Server.Controllers
             return Ok(seguimientosDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")] //api/Seguimineto/id
         public ActionResult<SeguimientoDTO> GetSeguimientoid(int id)
         {
             var seguimiento = repositorio.GetById(id);
@@ -60,17 +59,20 @@ namespace Proyecto_Zetta.Server.Controllers
             return NoContent();
         }
 
-        //[HttpDelete("{id}")]
-        //public ActionResult DeleteSeguimiento(int id)
-        //{
-        //    var seguimiento = repositorio.GetById(id);
-        //    if (seguimiento == null) return NotFound();
-        //    repositorio.Delete(id);
-        //    return NoContent();
-        //}
     }
 
 }
+
+
+//[HttpDelete("{id}")]
+//public ActionResult DeleteSeguimiento(int id)
+//{
+//    var seguimiento = repositorio.GetById(id);
+//    if (seguimiento == null) return NotFound();
+//    repositorio.Delete(id);
+//    return NoContent();
+//}
+
 // arreglar error de base de datosl al cargar, en seguimiento pide id mantenimiento sin importar que realice o no.
 // mantenimiento pide presupuesto y presupuesto pide obra de nuevo 
 // preguntar a cerca del seguimineto, si se modifica o no.  al profe

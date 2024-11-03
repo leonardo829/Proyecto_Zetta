@@ -1,5 +1,5 @@
 ﻿
-namespace Proyecto_zetta.client.Servicios
+namespace Proyecto_Zetta.Client.Servicios
 {
     public interface IHttpServicio
     {

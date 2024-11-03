@@ -1,7 +1,8 @@
-﻿using System.Text;
+﻿using Proyecto_Zetta.Shared.DTO;
+using System.Text;
 using System.Text.Json;
 
-namespace Proyecto_zetta.client.Servicios
+namespace Proyecto_Zetta.Client.Servicios
 {
     public class HttpServicio : IHttpServicio
     {
@@ -12,17 +13,21 @@ namespace Proyecto_zetta.client.Servicios
             this.http = http;
         }
 
-        public async Task<HttpRespuesta<T>> Get<T>(string url)
+        public async Task<HttpRespuesta<T>> Get<T>(string url) //https://localhost:7194/api/TDocumentos
         {
             var response = await http.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
                 var respuesta = await DesSerializar<T>(response);
                 return new HttpRespuesta<T>(respuesta, false, response);
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var data = JsonSerializer.Deserialize<SeguimientoDTO>(jsonString);
             }
             else
             {
                 return new HttpRespuesta<T>(default, true, response);
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error: {errorContent}");
             }
         }
 
@@ -38,13 +43,13 @@ namespace Proyecto_zetta.client.Servicios
             if (response.IsSuccessStatusCode)
             {
                 var respuesta = await DesSerializar<object>(response);
-                return new HttpRespuesta<object>(respuesta, false, response);
+               return new HttpRespuesta<object>(respuesta, false, response); 
             }
             else
             {
                 return new HttpRespuesta<object>(default, true, response);
             }
-
+        
         }
 
         public async Task<HttpRespuesta<object>> Put<T>(string url, T entidad)
