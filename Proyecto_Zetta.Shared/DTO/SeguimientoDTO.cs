@@ -9,7 +9,7 @@ namespace Proyecto_Zetta.Shared.DTO
     public class SeguimientoDTO
     {
         public string Estado { get; set; }
-        public string? Descripcion { get; set; }
+        public string? Comentario { get; set; }
         public bool Mantenimiento_SN { get; set; }
         public int ObraId { get; set; }
         public int? MantenimientoId { get; set; }

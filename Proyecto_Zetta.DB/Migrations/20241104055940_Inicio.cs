@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Proyecto_Zetta.DB.Migrations
 {
     /// <inheritdoc />
-    public partial class inicio : Migration
+    public partial class Inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -154,7 +154,7 @@ namespace Proyecto_Zetta.DB.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Estado = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Comentario = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Mantenimiento_SN = table.Column<bool>(type: "bit", nullable: false),
                     ObraId = table.Column<int>(type: "int", nullable: false),
                     MantenimientoId = table.Column<int>(type: "int", nullable: false)
