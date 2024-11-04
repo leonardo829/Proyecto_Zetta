@@ -20,14 +20,10 @@ namespace Proyecto_Zetta.Client.Servicios
             {
                 var respuesta = await DesSerializar<T>(response);
                 return new HttpRespuesta<T>(respuesta, false, response);
-                var jsonString = await response.Content.ReadAsStringAsync();
-                var data = JsonSerializer.Deserialize<SeguimientoDTO>(jsonString);
             }
             else
             {
                 return new HttpRespuesta<T>(default, true, response);
-                var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Error: {errorContent}");
             }
         }
 
@@ -73,7 +69,7 @@ namespace Proyecto_Zetta.Client.Servicios
 
         }
 
-        private async Task<T?> DesSerializar<T>(HttpResponseMessage response)
+        private async Task<T> DesSerializar<T>(HttpResponseMessage response)
         {
             var respuestaStr = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(respuestaStr,

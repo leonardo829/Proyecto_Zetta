@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Proyecto_Zetta.Server.Controllers
 {
     [ApiController]
-    [Route("api/controller")]
+    [Route("api/Seguimientos")]
     public class SeguimientosController : ControllerBase
     {
         private readonly ISeguimientoRepositorio repositorio;
@@ -73,7 +73,4 @@ namespace Proyecto_Zetta.Server.Controllers
 //    return NoContent();
 //}
 
-// arreglar error de base de datosl al cargar, en seguimiento pide id mantenimiento sin importar que realice o no.
-// mantenimiento pide presupuesto y presupuesto pide obra de nuevo 
-// preguntar a cerca del seguimineto, si se modifica o no.  al profe
-// dar opcion a agregar muchos comentarios?? consultar al profe como lo haria
+

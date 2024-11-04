@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Proyecto_Zetta.DB.Data.Entity;
 using Proyecto_Zetta.DB.Data;
+using Proyecto_Zetta.Shared.DTO;
 
 namespace Proyecto_Zetta.Server.Repositorios
 {

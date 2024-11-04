@@ -12,14 +12,6 @@
         <h5 class="card-title">Descripción</h5>
         <p class="card-text">@seguimiento.Comentario</p>
 
-        <h6>Comentarios</h6>
-        <ul>
-            @foreach (var comentario in comentarios)
-            {
-                    <li>@comentario</li>
-            }
-        </ul>
-
         <h6>
             Mantenimiento
         <span class="badge bg-primary">@(seguimiento.Mantenimiento_SN ? "Sí" : "No")</span>
@@ -29,9 +21,8 @@
 
 @code 
 {
-    private SeguimientoDTO seguimiento = new();
-    private List<string> comentarios = new();
-    private SeguimientoClienteDTO cliente = new();
+    private SeguimientoDTO seguimiento = new SeguimientoDTO();
+    private SeguimientoClienteDTO cliente = new SeguimientoClienteDTO();
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,8 +32,6 @@
 
     private async Task Mostrar()
     {
-        var seguimiento = await http.Get<SeguimientoDTO>("api/seguimientos");
-        var comentario = await http.Get<List<string>>("api/seguimientos/");
-        var cliente = await http.Get<SeguimientoClienteDTO>("api/Seguimiento");
+        var seguimiento = await http.Get<Seguimiento>("api/Seguimientos");
     }
 }
