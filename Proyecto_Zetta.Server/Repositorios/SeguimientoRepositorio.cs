@@ -2,37 +2,47 @@
 using Proyecto_Zetta.DB.Data.Entity;
 using Proyecto_Zetta.DB.Data;
 using Proyecto_Zetta.Shared.DTO;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace Proyecto_Zetta.Server.Repositorios
 {
     public class SeguimientoRepositorio : ISeguimientoRepositorio
     {
         private readonly Context _context;
+        private readonly IMapper mapper;
 
-        public SeguimientoRepositorio(Context context)
+        public SeguimientoRepositorio(Context context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
-        public SeguimientoClienteDTO GetSeguimientoConCliente(int seguimientoId)
+        public async Task<IActionResult> GetSeguimientoid(int id)
         {
-            return _context.Seguimientos
-                .Where(s => s.Id == seguimientoId)
-                .Include(s => s.Obra)
-                .ThenInclude(p => p.Cliente)
-                .Include(c => c.)
-                .Select(s => new SeguimientoClienteDTO
-                {
-                    Estado = s.Estado,
-                    Comentarios = .,
-                    MantenimientoSN = s.MantenimientoSN,
-                    ClienteNombre = s.Obra.Cliente.Nombre,
-                    ClienteDireccion = s.Obra.Cliente.Direccion,
-                    ClienteTelefono = s.Obra.Cliente.Telefono,
-                    ClienteMail = s.Obra.Cliente.Mail,
-                    ObraDescripcion = s.Obra.Descripcion
-                })
-                .FirstOrDefault();
+            var seguimiento = await _context.Seguimientos.FindAsync(id);
+            if (seguimiento == null)
+            {
+                return NotFound();
+            }
+
+            var seguimientoDto = mapper.Map<SeguimientoClienteDTO>(seguimiento);
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            var json = JsonSerializer.Serialize(seguimientoDto, options);
+
+            return Ok(json);
+        }
+
+        private IActionResult Ok(string json)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IActionResult NotFound()
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Seguimiento> Get()

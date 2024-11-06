@@ -6,6 +6,7 @@ using Proyecto_Zetta.DB.Data.Entity;
 using Proyecto_Zetta.Server.Repositorios;
 using Proyecto_Zetta.Shared.DTO;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Proyecto_Zetta.Server.Controllers
@@ -19,23 +20,26 @@ namespace Proyecto_Zetta.Server.Controllers
 
         public SeguimientosController(ISeguimientoRepositorio repositorio, IMapper mapper)
         {
-            this.repositorio = repositorio;
+           repositorio = repositorio;
             this.mapper = mapper;
         }
 
-        [HttpGet] //api/Seguimiento
-        public ActionResult<SeguimientoDTO> GetSeguimientos()
-        {
-            var seguimientos = repositorio.Get();
-            var seguimientosDto = mapper.Map<IEnumerable<SeguimientoDTO>>(seguimientos);
-            return Ok(seguimientosDto);
-        }
-
         [HttpGet("{id:int}")]
-        public IActionResult GetSeguimientoConCliente(int id)
+        public async Task<IActionResult> GetSeguimientoid(int id)
         {
-            var seguimientoCliente = SeguimientoRepositorio.GetSeguimientoConCliente(id);
-            return Ok(seguimientoCliente);
+            var seguimiento = await repositorio.GetSeguimientoid(id);
+
+            if (seguimiento == null)
+            {
+                return NotFound();
+            }
+
+            var seguimientoDto = mapper.Map<SeguimientoClienteDTO>(seguimiento);
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            var json = JsonSerializer.Serialize(seguimientoDto, options);
+
+            return Ok(json);
         }
 
         [HttpPost]

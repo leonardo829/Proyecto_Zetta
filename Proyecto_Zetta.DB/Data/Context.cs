@@ -41,9 +41,9 @@ namespace Proyecto_Zetta.DB.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Seguimiento>()
-        .HasMany(s => s.Comentarios)
-        .WithOne(c => c.Seguimiento)
-        .HasForeignKey(c => c.SeguimientoId);
+                        .HasMany(s => s.Comentarios)
+                        .WithOne(c => c.Seguimiento)
+                        .HasForeignKey(c => c.SeguimientoId);
         }
     }
 }

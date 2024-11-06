@@ -2,9 +2,9 @@
 @inject IHttpServicio http
 
 
-<div class="card">
+@* <div class="card">
     <div class="card-header">
-        Estado: @seguimiento.Estado  Cliente: @cliente.Nombre
+        Estado: @seguimiento.Estado  Cliente: @
     </div>
     <div class="card-body">
         <p>Dirección: @cliente.Direccion</p>
@@ -17,12 +17,11 @@
             <span class="badge bg-primary">@(seguimiento.Mantenimiento_SN ? "Sí" : "No")</span>
         </h6>
     </div>
-</div>
+</div> *@
 
 @code 
 {
-    private SeguimientoDTO seguimiento = new SeguimientoDTO();
-    private ClienteDTO cliente = new ClienteDTO();
+    private SeguimientoClienteDTO seguimiento = new SeguimientoClienteDTO();
 
     protected override async Task OnInitializedAsync()
     {
@@ -32,8 +31,6 @@
 
     private async Task Mostrar()
     {
-        var seguimientoClienteDTO = await http.Get<ClienteDTO>("api/SeguimientoCliente"); // Nueva URL
-        seguimiento = seguimientoClienteDTO.Seguimiento; // Asigna el seguimiento
-        cliente = seguimientoClienteDTO.Cliente; // Asigna el cliente
+        var seguimientoClienteDTO = await http.Get<SeguimientoClienteDTO>("api/Seguimiento"); // Nueva URL
     }
 }
