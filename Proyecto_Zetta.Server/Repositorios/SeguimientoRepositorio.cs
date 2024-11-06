@@ -14,6 +14,27 @@ namespace Proyecto_Zetta.Server.Repositorios
             _context = context;
         }
 
+        public SeguimientoClienteDTO GetSeguimientoConCliente(int seguimientoId)
+        {
+            return _context.Seguimientos
+                .Where(s => s.Id == seguimientoId)
+                .Include(s => s.Obra)
+                .ThenInclude(p => p.Cliente)
+                .Include(c => c.)
+                .Select(s => new SeguimientoClienteDTO
+                {
+                    Estado = s.Estado,
+                    Comentarios = .,
+                    MantenimientoSN = s.MantenimientoSN,
+                    ClienteNombre = s.Obra.Cliente.Nombre,
+                    ClienteDireccion = s.Obra.Cliente.Direccion,
+                    ClienteTelefono = s.Obra.Cliente.Telefono,
+                    ClienteMail = s.Obra.Cliente.Mail,
+                    ObraDescripcion = s.Obra.Descripcion
+                })
+                .FirstOrDefault();
+        }
+
         public IEnumerable<Seguimiento> Get()
         {
             return _context.Set<Seguimiento>().ToList();

@@ -31,13 +31,11 @@ namespace Proyecto_Zetta.Server.Controllers
             return Ok(seguimientosDto);
         }
 
-        [HttpGet("{id:int}")] //api/Seguimineto/id
-        public ActionResult<SeguimientoDTO> GetSeguimientoid(int id)
+        [HttpGet("{id:int}")]
+        public IActionResult GetSeguimientoConCliente(int id)
         {
-            var seguimiento = repositorio.GetById(id);
-            if (seguimiento == null) return NotFound();
-            var seguimientoDto = mapper.Map<SeguimientoDTO>(seguimiento);
-            return Ok(seguimientoDto);
+            var seguimientoCliente = SeguimientoRepositorio.GetSeguimientoConCliente(id);
+            return Ok(seguimientoCliente);
         }
 
         [HttpPost]

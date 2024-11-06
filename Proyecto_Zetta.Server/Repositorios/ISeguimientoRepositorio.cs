@@ -1,4 +1,5 @@
 ﻿using Proyecto_Zetta.DB.Data.Entity;
+using Proyecto_Zetta.Shared.DTO;
 
 namespace Proyecto_Zetta.Server.Repositorios
 {
@@ -8,6 +9,7 @@ namespace Proyecto_Zetta.Server.Repositorios
         //void Delete(int id);
         IEnumerable<Seguimiento> Get();
         Seguimiento GetById(int id);
+        SeguimientoClienteDTO GetSeguimientoConCliente(int seguimientoId);
         void Update(Seguimiento seguimiento);
     }
 }

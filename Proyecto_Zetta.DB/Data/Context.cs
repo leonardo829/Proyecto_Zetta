@@ -15,6 +15,7 @@ namespace Proyecto_Zetta.DB.Data
         public DbSet<Instalador> Instaladores { get; set; }
         public DbSet<Presupuesto> Presupuestos { get; set; }
         public DbSet<Seguimiento> Seguimientos { get; set; }
+        public DbSet<Comentario> comentarios { get; set; }
         public DbSet<Mantenimiento> Mantenimientos { get; set; }
         public DbSet<Forma_de_Pago> Formas_De_Pago { get; set; }
 
@@ -38,6 +39,11 @@ namespace Proyecto_Zetta.DB.Data
             }
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Seguimiento>()
+        .HasMany(s => s.Comentarios)
+        .WithOne(c => c.Seguimiento)
+        .HasForeignKey(c => c.SeguimientoId);
         }
     }
 }

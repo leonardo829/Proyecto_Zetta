@@ -34,5 +34,8 @@ namespace Proyecto_Zetta.DB.Data.Entity
         //claves foraneas 
         public int InstaladorId { get; set; }
         public Instalador Instalador { get; set; }
+
+        public int ClienteId { get; set; }
+        public Cliente Cliente { get; set; }
     }
 }

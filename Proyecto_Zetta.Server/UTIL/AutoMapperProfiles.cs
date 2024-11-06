@@ -10,7 +10,7 @@ namespace Proyecto_Zetta.Server.UTIL
         public MappingProfile()
         {
             CreateMap<Seguimiento, SeguimientoDTO>().ReverseMap();
-            CreateMap<Cliente, SeguimientoClienteDTO>().ReverseMap();
+            CreateMap<Cliente, ClienteDTO>().ReverseMap();
         }
     }
 }

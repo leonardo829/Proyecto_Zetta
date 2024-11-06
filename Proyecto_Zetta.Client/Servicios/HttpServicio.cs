@@ -69,7 +69,7 @@ namespace Proyecto_Zetta.Client.Servicios
 
         }
 
-        private async Task<T> DesSerializar<T>(HttpResponseMessage response)
+        private async Task<T?> DesSerializar<T>(HttpResponseMessage response)
         {
             var respuestaStr = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(respuestaStr,

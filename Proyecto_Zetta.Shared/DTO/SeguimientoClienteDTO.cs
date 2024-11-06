@@ -8,8 +8,13 @@ namespace Proyecto_Zetta.Shared.DTO
 {
     public class SeguimientoClienteDTO
     {
-        public string Nombre { get; set; }
-        public string Direccion { get; set; }
-        public string Telefono { get; set; }
+    public string Estado { get; set; }
+    public List<string> Comentarios { get; set; }
+    public bool MantenimientoSN { get; set; }
+    public string ClienteNombre { get; set; }
+    public string ClienteDireccion { get; set; }
+    public long? ClienteTelefono { get; set; }
+    public string? ClienteMail { get; set; }
+    public string ObraDescripcion { get; set; }
     }
 }

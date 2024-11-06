@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-header">
-        Estado: @seguimiento.Estado - Cliente: @cliente.Nombre
+        Estado: @seguimiento.Estado  Cliente: @cliente.Nombre
     </div>
     <div class="card-body">
         <p>Dirección: @cliente.Direccion</p>
@@ -14,7 +14,7 @@
 
         <h6>
             Mantenimiento
-        <span class="badge bg-primary">@(seguimiento.Mantenimiento_SN ? "Sí" : "No")</span>
+            <span class="badge bg-primary">@(seguimiento.Mantenimiento_SN ? "Sí" : "No")</span>
         </h6>
     </div>
 </div>
@@ -22,7 +22,7 @@
 @code 
 {
     private SeguimientoDTO seguimiento = new SeguimientoDTO();
-    private SeguimientoClienteDTO cliente = new SeguimientoClienteDTO();
+    private ClienteDTO cliente = new ClienteDTO();
 
     protected override async Task OnInitializedAsync()
     {
@@ -32,6 +32,8 @@
 
     private async Task Mostrar()
     {
-        var seguimiento = await http.Get<Seguimiento>("api/Seguimientos");
+        var seguimientoClienteDTO = await http.Get<ClienteDTO>("api/SeguimientoCliente"); // Nueva URL
+        seguimiento = seguimientoClienteDTO.Seguimiento; // Asigna el seguimiento
+        cliente = seguimientoClienteDTO.Cliente; // Asigna el cliente
     }
 }

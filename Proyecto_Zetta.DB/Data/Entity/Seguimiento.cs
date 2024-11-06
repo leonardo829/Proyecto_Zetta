@@ -12,9 +12,7 @@ namespace Proyecto_Zetta.DB.Data.Entity
         [Required(ErrorMessage = "El estado es obligatorio.")]
         [MaxLength(12, ErrorMessage = "Maximo numero de caracteres {1}.")]
         public string Estado { get; set; }
-
-        [MaxLength(500, ErrorMessage = "Maximo numero de caracteres {1}.")]
-        public string? Comentario { get; set; }
+       
 
         [Required(ErrorMessage = "El mantenimiento es obligatorio.")]
         public bool Mantenimiento_SN { get; set; }
