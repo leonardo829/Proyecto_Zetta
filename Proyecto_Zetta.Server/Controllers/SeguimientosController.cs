@@ -20,7 +20,7 @@ namespace Proyecto_Zetta.Server.Controllers
 
         public SeguimientosController(ISeguimientoRepositorio repositorio, IMapper mapper)
         {
-           repositorio = repositorio;
+           this.repositorio = repositorio;
             this.mapper = mapper;
         }
 
@@ -43,20 +43,20 @@ namespace Proyecto_Zetta.Server.Controllers
         }
 
         [HttpPost]
-        public ActionResult<SeguimientoDTO> CreateSeguimiento(SeguimientoDTO seguimientoDto)
+        public ActionResult<Seguimiento> CreateSeguimiento(Seguimiento seguimiento)
         {
-            var seguimiento = mapper.Map<Seguimiento>(seguimientoDto);
+            var Seguimiento = mapper.Map<Seguimiento>(seguimiento);
             repositorio.Add(seguimiento);
-            return CreatedAtAction(nameof(GetSeguimientoid), new { id = seguimiento.Id }, seguimientoDto);
+            return CreatedAtAction(nameof(GetSeguimientoid), new { id = seguimiento.Id }, seguimiento);
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateSeguimiento(int id, SeguimientoDTO seguimientoDto)
+        public ActionResult UpdateSeguimiento(int id, Seguimiento seguimiento)
         {
-            var seguimiento = repositorio.GetById(id);
+            var Seguimiento = repositorio.GetById(id);
             if (seguimiento == null) return NotFound();
 
-            mapper.Map(seguimientoDto, seguimiento);
+            mapper.Map(seguimiento, seguimiento);
             repositorio.Update(seguimiento);
             return NoContent();
         }
