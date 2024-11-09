@@ -1,23 +1,22 @@
-﻿@page "/api/Seguimiento"
+﻿@page "/Seguimiento"
 @inject IHttpServicio http
 
 
-@* <div class="card">
-    <div class="card-header">
-        Estado: @seguimiento.Estado  Cliente: @
-    </div>
-    <div class="card-body">
-        <p>Dirección: @cliente.Direccion</p>
-        <p>Teléfono: @cliente.Telefono</p>
-        <h5 class="card-title">Descripción</h5>
-        <p class="card-text">@seguimiento.Comentario</p>
-
-        <h6>
-            Mantenimiento
-            <span class="badge bg-primary">@(seguimiento.Mantenimiento_SN ? "Sí" : "No")</span>
-        </h6>
-    </div>
-</div> *@
+@foreach (var seguimiento in seguimiento) 
+{ 
+  <div class="card"> 
+    <div class="card-header"> Estado: @seguimiento.Estado - Cliente: @seguimiento.ClienteNombre </div> 
+    <div class="card-body"> 
+        <p>Dirección: @seguimiento.ClienteDireccion</p> 
+        <p>Teléfono: @seguimiento.ClienteTelefono</p> 
+        <h5 class="card-title">Descripción</h5> <p class="card-text">@seguimiento.ObraDescripcion</p> 
+        <h6>Comentarios</h6> <ul> 
+            @foreach (var comentario in seguimiento.Comentarios) 
+            { <li>@comentario</li> } 
+        </ul> 
+        <h6>Mantenimiento</h6> <span class="badge bg-primary">@(seguimiento.MantenimientoSN ? "Sí" : "No")</span> 
+    </div> 
+  </div>
 
 @code 
 {
@@ -31,6 +30,6 @@
 
     private async Task Mostrar()
     {
-        var seguimientoClienteDTO = await http.Get<SeguimientoClienteDTO>("api/Seguimiento"); // Nueva URL
+        var seguimientoClienteDTO = await http.Get<SeguimientoClienteDTO>("api/Seguimiento");
     }
 }

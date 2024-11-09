@@ -13,7 +13,7 @@ namespace Proyecto_Zetta.Client.Servicios
             this.http = http;
         }
 
-        public async Task<HttpRespuesta<T>> Get<T>(string url) //https://localhost:7194/api/TDocumentos
+        public async Task<HttpRespuesta<T>> Get<T>(string url) //https://localhost:7194/api/Seguimientos
         {
             var response = await http.GetAsync(url);
             if (response.IsSuccessStatusCode)
