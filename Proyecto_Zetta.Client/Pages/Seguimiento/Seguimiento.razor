@@ -1,5 +1,6 @@
 ﻿@page "/Seguimiento"
-@inject IHttpServicio http
+@inject HttpClient http
+@inject IHttpServicio hTtp
 
 
 @foreach (var seguimiento in seguimiento) 
@@ -17,19 +18,27 @@
         <h6>Mantenimiento</h6> <span class="badge bg-primary">@(seguimiento.MantenimientoSN ? "Sí" : "No")</span> 
     </div> 
   </div>
+}
 
 @code 
 {
-    private SeguimientoClienteDTO seguimiento = new SeguimientoClienteDTO();
+    private List<SeguimientoClienteDTO> seguimiento = new List<SeguimientoClienteDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-        await Mostrar();
-    }
+        try
+        {
+            seguimiento = await http.GetFromJsonAsync<List<SeguimientoClienteDTO>>("api/Seguimientos");
 
-    private async Task Mostrar()
-    {
-        var seguimientoClienteDTO = await http.Get<SeguimientoClienteDTO>("api/Seguimiento");
+            if (seguimiento == null)
+            {
+                seguimiento = new List<SeguimientoClienteDTO>();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al obtener Seguimientos: {ex.Message}");
+        }
     }
+  
 }

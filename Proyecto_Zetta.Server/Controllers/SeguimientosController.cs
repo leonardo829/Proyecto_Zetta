@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Proyecto_Zetta.DB.Data;
 using Proyecto_Zetta.DB.Data.Entity;
 using Proyecto_Zetta.Server.Repositorios;
 using Proyecto_Zetta.Shared.DTO;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace Proyecto_Zetta.Server.Controllers
 {
@@ -24,30 +20,20 @@ namespace Proyecto_Zetta.Server.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetSeguimientoid(int id)
+        [HttpGet]
+        public async Task<ActionResult<List<SeguimientoClienteDTO>>> GetSeguimientos()
         {
-            var seguimiento = await repositorio.GetSeguimientoid(id);
-
-            if (seguimiento == null)
-            {
-                return NotFound();
-            }
-
-            var seguimientoDto = mapper.Map<SeguimientoClienteDTO>(seguimiento);
-
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            var json = JsonSerializer.Serialize(seguimientoDto, options);
-
-            return Ok(json);
+            var seguimiento = await repositorio.GetAll();
+            var SeguimientoClienteDTO = mapper.Map<List<SeguimientoClienteDTO>>(seguimiento);
+            return Ok(SeguimientoClienteDTO);
         }
 
-        [HttpPost]
-        public ActionResult<Seguimiento> CreateSeguimiento(Seguimiento seguimiento)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<SeguimientoClienteDTO>> GetById(int id)
         {
-            var Seguimiento = mapper.Map<Seguimiento>(seguimiento);
-            repositorio.Add(seguimiento);
-            return CreatedAtAction(nameof(GetSeguimientoid), new { id = seguimiento.Id }, seguimiento);
+            var seguimiento = await repositorio.GetById(id);
+            if (seguimiento == null) return NotFound();
+            return Ok(seguimiento);
         }
 
         [HttpPut("{id}")]
@@ -56,7 +42,7 @@ namespace Proyecto_Zetta.Server.Controllers
             var Seguimiento = repositorio.GetById(id);
             if (seguimiento == null) return NotFound();
 
-            mapper.Map(seguimiento, seguimiento);
+            mapper.Map(Seguimiento, seguimiento);
             repositorio.Update(seguimiento);
             return NoContent();
         }
@@ -65,7 +51,13 @@ namespace Proyecto_Zetta.Server.Controllers
 
 }
 
-
+//[HttpPost]
+//public ActionResult<Seguimiento> CreateSeguimiento(Seguimiento seguimiento)
+//{
+//    var Seguimiento = mapper.Map<Seguimiento>(seguimiento);
+//    repositorio.Add(seguimiento);
+//    return CreatedAtAction(nameof(GetSeguimientoid), new { id = seguimiento.Id }, seguimiento);
+//}
 //[HttpDelete("{id}")]
 //public ActionResult DeleteSeguimiento(int id)
 //{

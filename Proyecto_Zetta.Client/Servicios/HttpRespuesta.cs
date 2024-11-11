@@ -1,10 +1,19 @@
 ﻿namespace Proyecto_Zetta.Client.Servicios
 {
-    public class HttpRespuesta<T>(T respuesta, bool error, HttpResponseMessage httpResponseMessage)
+    public class HttpRespuesta<T>
     {
-        public T Respuesta { get; } = respuesta;
-        public bool Error { get; } = error;
-        public HttpResponseMessage HttpResponseMessage { get; set; } = httpResponseMessage;
+        public T? Respuesta { get; }
+
+        public bool Error { get; }
+
+        public HttpResponseMessage HttpResponseMessage { get; set; }
+
+        public HttpRespuesta(T? respuesta, bool error, HttpResponseMessage httpResponseMessage)
+        {
+            Respuesta = respuesta;
+            Error = error;
+            HttpResponseMessage = httpResponseMessage;
+        }
 
         public async Task<string> ObtenerError()
         {

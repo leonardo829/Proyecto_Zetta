@@ -8,57 +8,35 @@ using AutoMapper;
 
 namespace Proyecto_Zetta.Server.Repositorios
 {
-    public class SeguimientoRepositorio : ISeguimientoRepositorio
+    public class SeguimientoRepositorio : Repositorio<Seguimiento>, ISeguimientoRepositorio
     {
         private readonly Context _context;
-        private readonly IMapper mapper;
 
-        public SeguimientoRepositorio(Context context, IMapper mapper)
+        public SeguimientoRepositorio(Context context) : base(context)
         {
-            _context = context;
-            this.mapper = mapper;
+            this._context = context;
         }
 
-        public async Task<IActionResult> GetSeguimientoid(int id)
+        public async Task<List<Seguimiento>> GetAll()
         {
-            var seguimiento = await _context.Seguimientos.FindAsync(id);
-            if (seguimiento == null)
-            {
-                return NotFound();
-            }
-
-            var seguimientoDto = mapper.Map<SeguimientoClienteDTO>(seguimiento);
-
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            var json = JsonSerializer.Serialize(seguimientoDto, options);
-
-            return Ok(json);
+            return await _context.Seguimientos
+                .Include(a => a.Obra)
+                .ThenInclude(c => c.Cliente)
+                .Include(co => co.Comentarios)
+                .ThenInclude(t => t.Texto)
+                .Include(m => m.Mantenimiento)
+                .ToListAsync();
         }
 
-        private IActionResult Ok(string json)
+        public async Task<Seguimiento> GetById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        private IActionResult NotFound()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Seguimiento> Get()
-        {
-            return _context.Set<Seguimiento>().ToList();
-        }
-
-        public Seguimiento GetById(int id)
-        {
-            return _context.Set<Seguimiento>().Find(id);
-        }
-
-        public void Add(Seguimiento seguimiento)
-        {
-            _context.Set<Seguimiento>().Add(seguimiento);
-            _context.SaveChanges();
+            return await _context.Seguimientos
+                .Include(b => b.Obra)
+                .ThenInclude(c => c.Cliente)
+                .Include(co => co.Comentarios)
+                .ThenInclude(t => t.Texto)
+                .Include(m => m.Mantenimiento)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public void Update(Seguimiento seguimiento)
@@ -66,6 +44,12 @@ namespace Proyecto_Zetta.Server.Repositorios
             _context.Set<Seguimiento>().Update(seguimiento);
             _context.SaveChanges();
         }
+
+        //public void Add(Seguimiento seguimiento)
+        //{
+        //    _context.Set<Seguimiento>().Add(seguimiento);
+        //    _context.SaveChanges();
+        //}
 
         //public void Delete(int id)
         //{

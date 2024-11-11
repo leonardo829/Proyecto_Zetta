@@ -53,8 +53,8 @@ namespace Proyecto_Zetta.Client.Servicios
             var enviarJson = JsonSerializer.Serialize(entidad);
 
             var enviarContent = new StringContent(enviarJson,
-                                 Encoding.UTF8,
-                                 "application/json");
+                                    Encoding.UTF8,
+                                    "application/json");
 
             var response = await http.PutAsync(url, enviarContent);
             if (response.IsSuccessStatusCode)

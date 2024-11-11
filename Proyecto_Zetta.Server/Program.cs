@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Proyecto_Zetta.Client.Servicios;
+
 //using Proyecto_zetta.client.Servicios;
 using Proyecto_Zetta.DB.Data;
 using Proyecto_Zetta.Server.Repositorios;
@@ -13,8 +15,21 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews().AddJsonOptions(
     x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null; // Si necesitas mantener los nombres de propiedades
+    });
+
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Mi API", Version = "v1" });
+});
+
+
 builder.Services.AddRazorPages();
-//builder.Services.AddScoped<IHttpServicio, HttpServicio>();
+builder.Services.AddScoped<IHttpServicio, HttpServicio>();
 builder.Services.AddHttpClient();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,10 +39,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<Context>(op => op.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Proyecto_ZETTA;Trusted_Connection=True"));
 
-
-
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(Program));
+
+
 builder.Services.AddScoped<ISeguimientoRepositorio, SeguimientoRepositorio>();
 
 var app = builder.Build();
