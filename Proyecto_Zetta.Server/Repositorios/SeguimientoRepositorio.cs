@@ -23,7 +23,6 @@ namespace Proyecto_Zetta.Server.Repositorios
                 .Include(a => a.Obra)
                 .ThenInclude(c => c.Cliente)
                 .Include(co => co.Comentarios)
-                .ThenInclude(t => t.Texto)
                 .Include(m => m.Mantenimiento)
                 .ToListAsync();
         }
@@ -32,9 +31,8 @@ namespace Proyecto_Zetta.Server.Repositorios
         {
             return await _context.Seguimientos
                 .Include(b => b.Obra)
-                .ThenInclude(c => c.Cliente)
+                .Include(c => c.Obra.Cliente)
                 .Include(co => co.Comentarios)
-                .ThenInclude(t => t.Texto)
                 .Include(m => m.Mantenimiento)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
