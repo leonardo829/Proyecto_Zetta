@@ -8,11 +8,11 @@ using AutoMapper;
 
 namespace Proyecto_Zetta.Server.Repositorios
 {
-    public class SeguimientoRepositorio : Repositorio<Seguimiento>, ISeguimientoRepositorio
+    public class SeguimientoRepositorio : ISeguimientoRepositorio
     {
         private readonly Context _context;
 
-        public SeguimientoRepositorio(Context context) : base(context)
+        public SeguimientoRepositorio(Context context)
         {
             this._context = context;
         }
