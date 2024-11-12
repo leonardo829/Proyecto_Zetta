@@ -9,7 +9,7 @@ namespace Proyecto_Zetta.Shared.DTO
     public class SeguimientoClienteDTO
     {
         public int Id { get; set; }
-        public string Estado { get; set; } = "sin iniciar"; // sin iniciar, iniciado, terminado de la entidad seguimiento
+        public string Estado { get; set; } = "Sin iniciar"; // sin iniciar, iniciado, terminado de la entidad seguimiento
         public List<string>? Comentarios { get; set; } // dato Texto de la entidad Comentarios
     public bool MantenimientoSN { get; set; } //mantenimiento si o no de la entidad seguimiento 
     public string ClienteNombre { get; set; } //nombre del cliente de la entidad Cliente

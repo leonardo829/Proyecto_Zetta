@@ -5,12 +5,13 @@
 {
     <div class="card">
         <div class="card-header">
-            Estado:
-            <select value="@seguimiento.Estado" @onchange="(e) => ActualizarEstado(seguimiento, e.Value.ToString())">
+            Estado: @seguimiento.Estado
+            <select @bind="seguimiento.Estado">
                 <option value="sin iniciar">Sin Iniciar</option>
                 <option value="iniciado">Iniciado</option>
                 <option value="terminado">Terminado</option>
             </select>
+            <button @onclick="() => ActualizarEstado(seguimiento)">Guardar</button>
             - Cliente: @seguimiento.ClienteNombre
         </div>
         <div class="card-body">
@@ -75,13 +76,17 @@
         }
     }
 
-    public async Task ActualizarEstado(SeguimientoClienteDTO seguimientoCliente, string nuevoEstado)
+    public async Task ActualizarEstado(SeguimientoClienteDTO seguimientoCliente)
     {
-        seguimientoCliente.Estado = nuevoEstado;
         var resp = await http.Put($"api/Seguimientos/{seguimientoCliente.Id}", seguimientoCliente);
         if (resp.Error)
         {
             Mensaje = await resp.ObtenerError();
+        }
+        else
+        {
+            // Actualiza la lista de seguimientos para reflejar el cambio
+            await Mostrar();
         }
     }
 }

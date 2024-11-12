@@ -42,6 +42,7 @@ namespace Proyecto_Zetta.Server.Repositorios
             _context.Set<Seguimiento>().Update(seguimiento);
             await _context.SaveChangesAsync();
         }
+
     }
 }
 
