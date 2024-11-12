@@ -51,15 +51,15 @@ namespace Proyecto_Zetta.Server.Controllers
             return Ok(new { mensaje = "Comentario agregado con éxito" }); 
         }
 
-        [HttpPut("{id}")]
-        public ActionResult UpdateSeguimiento(int id, Seguimiento seguimiento)
-        {
-            var Seguimiento = repositorio.GetById(id);
-            if (seguimiento == null) return NotFound();
-
-            mapper.Map(Seguimiento, seguimiento);
-            repositorio.Update(seguimiento);
-            return NoContent();
+        [HttpPut("{id}")] 
+        public async Task<ActionResult> UpdateSeguimiento(int id, [FromBody] SeguimientoClienteDTO seguimientoDto) 
+        { 
+            var seguimiento = await repositorio.GetById(id); 
+            if (seguimiento == null) 
+                return NotFound(); 
+            mapper.Map(seguimientoDto, seguimiento);
+            await repositorio.Update(seguimiento); 
+            return NoContent(); 
         }
 
     }

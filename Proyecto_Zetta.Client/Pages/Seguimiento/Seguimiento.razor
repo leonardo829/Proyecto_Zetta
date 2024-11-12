@@ -4,7 +4,15 @@
 @foreach (var seguimiento in seguimiento)
 {
     <div class="card">
-        <div class="card-header"> Estado: @seguimiento.Estado - Cliente: @seguimiento.ClienteNombre </div>
+        <div class="card-header">
+            Estado:
+            <select value="@seguimiento.Estado" @onchange="(e) => ActualizarEstado(seguimiento, e.Value.ToString())">
+                <option value="sin iniciar">Sin Iniciar</option>
+                <option value="iniciado">Iniciado</option>
+                <option value="terminado">Terminado</option>
+            </select>
+            - Cliente: @seguimiento.ClienteNombre
+        </div>
         <div class="card-body">
             <p>Dirección: @seguimiento.ClienteDireccion</p>
             <p>Teléfono: @seguimiento.ClienteTelefono</p>
@@ -64,6 +72,16 @@
             {
                 Mensaje = await resp.ObtenerError();
             }
+        }
+    }
+
+    public async Task ActualizarEstado(SeguimientoClienteDTO seguimientoCliente, string nuevoEstado)
+    {
+        seguimientoCliente.Estado = nuevoEstado;
+        var resp = await http.Put($"api/Seguimientos/{seguimientoCliente.Id}", seguimientoCliente);
+        if (resp.Error)
+        {
+            Mensaje = await resp.ObtenerError();
         }
     }
 }
