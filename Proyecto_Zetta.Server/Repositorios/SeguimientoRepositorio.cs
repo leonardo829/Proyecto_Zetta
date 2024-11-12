@@ -37,26 +37,26 @@ namespace Proyecto_Zetta.Server.Repositorios
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public void Update(Seguimiento seguimiento)
+        public async Task Update(Seguimiento seguimiento)
         {
             _context.Set<Seguimiento>().Update(seguimiento);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-
-        //public void Add(Seguimiento seguimiento)
-        //{
-        //    _context.Set<Seguimiento>().Add(seguimiento);
-        //    _context.SaveChanges();
-        //}
-
-        //public void Delete(int id)
-        //{
-        //    var seguimiento = GetById(id);
-        //    if (seguimiento != null)
-        //    {
-        //        _context.Set<Seguimiento>().Remove(seguimiento);
-        //        _context.SaveChanges();
-        //    }
-        //}
     }
 }
+
+//public void Add(Seguimiento seguimiento)
+//{
+//    _context.Set<Seguimiento>().Add(seguimiento);
+//    _context.SaveChanges();
+//}
+
+//public void Delete(int id)
+//{
+//    var seguimiento = GetById(id);
+//    if (seguimiento != null)
+//    {
+//        _context.Set<Seguimiento>().Remove(seguimiento);
+//        _context.SaveChanges();
+//    }
+//}

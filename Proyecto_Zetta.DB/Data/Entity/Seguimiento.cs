@@ -21,7 +21,7 @@ namespace Proyecto_Zetta.DB.Data.Entity
         public int ObraId { get; set; }
         public Obra Obra { get; set; }
 
-        public ICollection<Comentario>? Comentarios { get; set; }
+        public List<Comentario>? Comentarios { get; set; }
 
         public int MantenimientoId { get; set; }
         public Mantenimiento Mantenimiento { get; set; }

@@ -36,6 +36,21 @@ namespace Proyecto_Zetta.Server.Controllers
             return Ok(seguimiento);
         }
 
+        [HttpPost("{id}/comentarios")] 
+        public async Task<ActionResult> AddComentario(int id, [FromBody] string comentario) 
+        { 
+            var seguimiento = await repositorio.GetById(id); 
+            if (seguimiento == null) 
+                return NotFound(); 
+            if (seguimiento.Comentarios == null) 
+            { 
+                seguimiento.Comentarios = new List<Comentario>(); 
+            } 
+            seguimiento.Comentarios.Add(new Comentario { Texto = comentario, Fecha = DateTime.Now }); 
+            await repositorio.Update(seguimiento); 
+            return Ok(new { mensaje = "Comentario agregado con éxito" }); 
+        }
+
         [HttpPut("{id}")]
         public ActionResult UpdateSeguimiento(int id, Seguimiento seguimiento)
         {

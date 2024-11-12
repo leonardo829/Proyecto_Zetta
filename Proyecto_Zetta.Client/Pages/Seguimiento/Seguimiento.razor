@@ -1,29 +1,35 @@
 ﻿@page "/api/Seguimientos"
 @inject IHttpServicio http
 
-
-@foreach (var seguimiento in seguimiento) 
-{ 
-  <div class="card"> 
-    <div class="card-header"> Estado: @seguimiento.Estado - Cliente: @seguimiento.ClienteNombre </div> 
-    <div class="card-body"> 
-        <p>Dirección: @seguimiento.ClienteDireccion</p> 
-        <p>Teléfono: @seguimiento.ClienteTelefono</p> 
-        <h5 class="card-title">Descripción</h5> <p class="card-text">@seguimiento.ObraDescripcion</p> 
-        <h6>Comentarios</h6> <ul> 
-            @foreach (var comentario in seguimiento.Comentarios) 
-            { <li>@comentario</li> } 
-        </ul> 
-        <h6>Mantenimiento</h6> <span class="badge bg-primary">@(seguimiento.MantenimientoSN ? "Sí" : "No")</span> 
-    </div> 
-  </div>
+@foreach (var seguimiento in seguimiento)
+{
+    <div class="card">
+        <div class="card-header"> Estado: @seguimiento.Estado - Cliente: @seguimiento.ClienteNombre </div>
+        <div class="card-body">
+            <p>Dirección: @seguimiento.ClienteDireccion</p>
+            <p>Teléfono: @seguimiento.ClienteTelefono</p>
+            <h5 class="card-title">Descripción</h5>
+            <p class="card-text">@seguimiento.ObraDescripcion</p>
+            <h6>Comentarios</h6>
+            <ul>
+                @foreach (var comentario in seguimiento.Comentarios)
+                {
+                    <li>@comentario</li>
+                }
+            </ul>
+            <input type="text" @bind="seguimiento.NuevoComentario" placeholder="Agregar comentario" />
+            <button @onclick="() => AgregarComentario(seguimiento)">Agregar</button>
+            <h6>Mantenimiento</h6>
+            <span class="badge bg-primary">@(seguimiento.MantenimientoSN ? "Sí" : "No")</span>
+        </div>
+    </div>
 }
 
-@code 
+@code
 {
     private List<SeguimientoClienteDTO> seguimiento = new List<SeguimientoClienteDTO>();
     string Mensaje = "";
-   
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -32,17 +38,32 @@
 
     public async Task Mostrar()
     {
+        var resp = await http.Get<List<SeguimientoClienteDTO>>("api/Seguimientos");
 
-            var resp = await http.Get<List<SeguimientoClienteDTO>>("api/Seguimientos");
+        if (!resp.Error)
+        {
+            seguimiento = resp.Respuesta;
+        }
+        else
+        {
+            Mensaje = await resp.ObtenerError();
+        }
+    }
 
+    public async Task AgregarComentario(SeguimientoClienteDTO seguimientoCliente)
+    {
+        if (!string.IsNullOrWhiteSpace(seguimientoCliente.NuevoComentario))
+        {
+            var resp = await http.Post($"api/Seguimientos/{seguimientoCliente.Id}/comentarios", seguimientoCliente.NuevoComentario);
             if (!resp.Error)
             {
-                seguimiento = resp.Respuesta;
+                seguimientoCliente.Comentarios.Add(seguimientoCliente.NuevoComentario);
+                seguimientoCliente.NuevoComentario = "";
             }
             else
             {
                 Mensaje = await resp.ObtenerError();
             }
-        
+        }
     }
 }

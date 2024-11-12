@@ -6,6 +6,6 @@ namespace Proyecto_Zetta.Server.Repositorios
     {
         Task<List<Seguimiento>> GetAll();
         Task<Seguimiento> GetById(int id);
-        void Update(Seguimiento seguimiento);
+        Task Update(Seguimiento seguimiento);
     }
 }
