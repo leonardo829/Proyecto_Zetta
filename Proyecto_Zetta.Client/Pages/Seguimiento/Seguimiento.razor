@@ -29,7 +29,9 @@
             <input type="text" @bind="seguimiento.NuevoComentario" placeholder="Agregar comentario" />
             <button @onclick="() => AgregarComentario(seguimiento)">Agregar</button>
             <h6>Mantenimiento</h6>
-            <span class="badge bg-primary">@(seguimiento.MantenimientoSN ? "Sí" : "No")</span>
+            <button @onclick="() => CambiarMantenimiento(seguimiento)" style="background-color:@(seguimiento.MantenimientoSN ? "green" : "red"); color: white;">
+                @(seguimiento.MantenimientoSN ? "Sí" : "No")
+            </button>
         </div>
     </div>
 }
@@ -85,7 +87,20 @@
         }
         else
         {
-            // Actualiza la lista de seguimientos para reflejar el cambio
+            await Mostrar();
+        }
+    }
+
+    public async Task CambiarMantenimiento(SeguimientoClienteDTO seguimientoCliente)
+    {
+        seguimientoCliente.MantenimientoSN = !seguimientoCliente.MantenimientoSN;
+        var resp = await http.Put($"api/Seguimientos/{seguimientoCliente.Id}", seguimientoCliente);
+        if (resp.Error)
+        {
+            Mensaje = await resp.ObtenerError();
+        }
+        else
+        {
             await Mostrar();
         }
     }
